@@ -20,9 +20,20 @@ return [
         User $newUser = null,
         User $oldUser = null
     ) {
-        
+
         // skip unwanted event types
         if (in_array($event->type(), ['page', 'file', 'user']) === false) {
+            return;
+        }
+
+        // skip if specific options set to false
+        if ($event->type() === 'page' && option('search.entries.pages', true) === false) {
+            return;
+        }
+        if ($event->type() === 'file' && option('search.entries.files', true) === false) {
+            return;
+        }
+        if ($event->type() === 'user' && option('search.entries.users', true) === false) {
             return;
         }
 
